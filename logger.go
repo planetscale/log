@@ -1,6 +1,8 @@
 package log
 
 import (
+	_ "github.com/golang/glog"
+
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
