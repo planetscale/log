@@ -14,7 +14,7 @@ func NewPlanetScaleLogger(opts ...zap.Option) (*zap.Logger, error) {
 
 // NewPlanetScaleSugarLogger creates an opinionated zap.SugaredLogger. Additional customization
 // is available by passing in one or more zap.Options.
-// NOTE: A SugaredLoggered can be converted into a zap.Logger with the .DeSugar() method.
+// NOTE: A SugaredLogger can be converted into a zap.Logger with the .DeSugar() method.
 func NewPlanetScaleSugarLogger(opts ...zap.Option) (*zap.SugaredLogger, error) {
 	logger, err := NewPlanetScaleConfig().Build(opts...)
 	if err != nil {
