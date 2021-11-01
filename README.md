@@ -10,7 +10,7 @@ Logs emitted follow the standards from [PlanetScale Structure Logging (coda)](ht
 go get github.com/planetscale/log
 ```
 
-`zap` provides two logging interfaces - The standard `zap.Logger` and the `zap.SugarLogger`. Zap describes each logger and when to choose between them as:
+`zap` provides two logging interfaces: `zap.Logger` and `zap.SugarLogger`. Zap describes each logger and how to choose between them:
 
 > In contexts where performance is nice, but not critical, use the `zap.SugaredLogger`. It's 4-10x faster than other structured logging packages and supports both structured and printf-style logging. Like log15 and go-kit, the SugaredLogger's structured logging APIs are loosely typed and accept a variadic number of key-value pairs. (For more advanced use cases, they also accept strongly typed fields - see the [SugaredLogger.With](https://pkg.go.dev/go.uber.org/zap@v1.19.1#SugaredLogger.With) documentation for details.
 
@@ -62,7 +62,7 @@ See [./examples](./examples) for more.
 
 ### glog
 
-Many PlanetScale applications use the [github.com/golang/glog](https://github.com/golang/glog) library which is commonly used in Vitess and Kuberenetes client libraries. Glog has some interesting properties, namely that it hooks into `flags` for configuration and outputs its own log messages. When combined with `zap` you will end up with an application that is mixing structured JSON logs with plain-text logs from `glog`.
+Many PlanetScale applications use the [github.com/golang/glog](https://github.com/golang/glog) library which is commonly used in Vitess and Kuberenetes client libraries. Glog has some interesting properties, namely that it hooks into `flags` for configuration and causes libraries that use it to output their own logs, regardless of the application's logging config. When combined with this library you will end up with an application that is mixing structured JSON logs from `zap` with plain-text logs from `glog`.
 
 Using [noglog](https://github.com/planetscale/noglog) the `glog` library's log calls can be replaced with our logger such that all logs emitted by the application are in a common, structured, JSON format.
 
