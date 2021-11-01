@@ -24,9 +24,7 @@ go get github.com/planetscale/log
 import "github.com/planetscale/log"
 
 func main() {
-  fields := zap.Fields(zap.String("app", "logging-demo"))
-
-  logger, _ := log.NewPlanetScaleLogger(fields)
+  logger := log.NewPlanetScaleLogger()
   defer logger.Sync()
 
   logger.Info("info log with fields",
@@ -43,14 +41,12 @@ func main() {
 import "github.com/planetscale/log"
 
 func main() {
-  fields := zap.Fields(zap.String("app", "logging-demo"))
-
-  logger, _ := log.NewPlanetScaleSugarLogger(fields)
+  logger := log.NewPlanetScaleSugarLogger()
   defer logger.Sync()
 
-  logger.Infof("sugar log printf example: %v", "foo")
+  logger.Infof("info log printf example: %v", "foo")
 
-  logger.Infow("sugar log with fields",
+  logger.Infow("info log with fields",
     // Structured context as loosely typed key-value pairs.
     "user_id", "12345678",
     "branch_id", "xzyhnkhpi12",
@@ -58,7 +54,16 @@ func main() {
 }
 ```
 
-See [./examples](./examples) for more.
+Additional customizations to the logger config may be obtained by calling the `NewPlanetScaleConfig()` function to return a pre-configured `zap.Config` which can be further customized before calling `.Build()` to create a `zap.Logger`. Example:
+
+```go
+  // disable the `caller` field in logs:
+  cfg := log.NewPlanetScaleConfig()
+  logger, _ := cfg.Build(zap.WithCaller(false))
+  defer logger.Sync()
+```
+
+See [./examples](./examples).
 
 ### glog
 
