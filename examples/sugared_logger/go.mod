@@ -1,4 +1,4 @@
-module logger_example
+module sugared_logger_example
 
 go 1.17
 

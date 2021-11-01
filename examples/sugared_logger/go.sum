@@ -1,14 +1,10 @@
 github.com/benbjohnson/clock v1.1.0/go.mod h1:J11/hYXuz8f4ySSvYwY0FKfm+ezbsZBKZxNJlLklBHA=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/golang/glog v1.0.0 h1:nfP3RFugxnNRyKgeWd4oI1nYvXpxrx8ck8ZrcizshdQ=
-github.com/golang/glog v1.0.0/go.mod h1:EWib/APOK0SL3dFbYqvxE3UYd8E6s1ouQ7iEp/0LWV4=
 github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORNo=
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=
 github.com/kr/text v0.1.0/go.mod h1:4Jbv+DJW3UT/LiOwJeYQe1efqtUx/iVham/4vfdArNI=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
-github.com/planetscale/log v0.0.0-20211029021554-06638e15cd9f h1:hrCO1XErCMmw6cfaCwa/Wge6u+Y8a8FL+ASr6ApwtJc=
-github.com/planetscale/log v0.0.0-20211029021554-06638e15cd9f/go.mod h1:in4rAOBv8oopy/goyI7ebc1yHlK2mKJ8V+H1wfwiJvI=
 github.com/planetscale/log v0.0.0-20211101173951-39b30043a122 h1:fjc5aQ5ccZl8jj5bcHwpmnHDori/QG1xdLhl8mMVvc8=
 github.com/planetscale/log v0.0.0-20211101173951-39b30043a122/go.mod h1:sDQYi/wpmDO7rUNEU/c5NPrRYSihSJhih8ZzTKc9NkA=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=

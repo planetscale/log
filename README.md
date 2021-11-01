@@ -64,7 +64,7 @@ See [./examples](./examples) for more.
 
 Many PlanetScale applications use the [github.com/golang/glog](https://github.com/golang/glog) library which is commonly used in Vitess and Kuberenetes client libraries. Glog has some interesting properties, namely that it hooks into `flags` for configuration and outputs its own log messages. When combined with `zap` you will end up with an application that is mixing structured JSON logs with plain-text logs from `glog`.
 
-Using [slok/noglog](https://github.com/slok/noglog) the `glog` library's log calls can be replaced with our logger such that all logs emitted by the application are in a common, structured, JSON format.
+Using [noglog](https://github.com/planetscale/noglog) the `glog` library's log calls can be replaced with our logger such that all logs emitted by the application are in a common, structured, JSON format.
 
 1. Add the following to your `go.mod`:
 
@@ -73,7 +73,7 @@ require (
     github.com/google/glog master
 )
 
-replace github.com/google/glog => github.com/slok/noglog master
+replace github.com/google/glog => github.com/planetscale/noglog master
 ```
 
 2. Replace `glog's` log calls with our SugaredLogger:
