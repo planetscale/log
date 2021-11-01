@@ -5,7 +5,6 @@ import (
 
 	"github.com/golang/glog"
 	"github.com/planetscale/log"
-	"go.uber.org/zap"
 )
 
 // Add to `go.mod`:
@@ -13,11 +12,7 @@ import (
 //   replace github.com/google/glog => github.com/slok/noglog master
 
 func main() {
-	// most services should set a global field `app=NAME` so we know who is talking
-	fields := zap.Fields(zap.String("app", "logging-demo"))
-
-	// setup zap
-	logger, _ := log.NewPlanetScaleLogger(fields)
+	logger := log.NewPlanetScaleLogger()
 	defer logger.Sync()
 
 	// configure glog to log info to stdout, for demo purposes

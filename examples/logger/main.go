@@ -5,14 +5,8 @@ import (
 	"go.uber.org/zap"
 )
 
-// TODO copy differences between sugar logger and zap logger here, or maybe we just do that in the readme?
-
 func main() {
-	// most services should set a global field `app=NAME` so we know who is talking
-	fields := zap.Fields(zap.String("app", "logging-demo"))
-
-	// setup zap logger
-	logger, _ := log.NewPlanetScaleLogger(fields)
+	logger := log.NewPlanetScaleLogger()
 	defer logger.Sync()
 
 	logger.Info("basic log example")

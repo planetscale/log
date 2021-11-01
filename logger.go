@@ -3,30 +3,32 @@ package log
 import (
 	"os"
 
-	// _ "github.com/golang/glog"
-
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
 // NewPlanetScaleLogger creates an opinionated zap.Logger. Additional customization
 // is available by passing in one or more zap.Options.
-func NewPlanetScaleLogger(opts ...zap.Option) (*zap.Logger, error) {
-	return NewPlanetScaleConfig().Build(opts...)
+func NewPlanetScaleLogger() *zap.Logger {
+	logger, err := NewPlanetScaleConfig().Build()
+	if err != nil {
+		panic("Unexpected error initializing PlanetScale logger: " + err.Error())
+	}
+	return logger
 }
 
 // NewPlanetScaleSugarLogger creates an opinionated zap.SugaredLogger. Additional customization
 // is available by passing in one or more zap.Options.
 // NOTE: A SugaredLogger can be converted into a zap.Logger with the .DeSugar() method.
-func NewPlanetScaleSugarLogger(opts ...zap.Option) (*zap.SugaredLogger, error) {
-	logger, err := NewPlanetScaleConfig().Build(opts...)
+func NewPlanetScaleSugarLogger() *zap.SugaredLogger {
+	logger, err := NewPlanetScaleConfig().Build()
 	if err != nil {
-		return nil, err
+		panic("Unexpected error initializing PlanetScale logger: " + err.Error())
 	}
-	return logger.Sugar(), nil
+	return logger.Sugar()
 }
 
-// NewPlanetScaleConfig createss an opinionated zap.Config
+// NewPlanetScaleConfig creates an opinionated zap.Config
 func NewPlanetScaleConfig() zap.Config {
 	encoding := "json"
 	if os.Getenv("PS_DEV_MODE") != "" {
