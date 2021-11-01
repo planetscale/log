@@ -1,0 +1,10 @@
+agents:
+  queue: "private"
+
+steps:
+  - name: lint
+    commands:
+      - make lint
+    plugins:
+      - docker#v3.8.0:
+          image: "golang:1.17"
