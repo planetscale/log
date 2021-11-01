@@ -90,7 +90,7 @@ replace github.com/google/glog => github.com/planetscale/noglog master
   })
 ```
 
-If using the `zap.Logger`:
+If using the `zap.Logger` call `.Sugar()` to get a SugaredLogger first:
 
 ```golang
   logger, _ := log.NewPlanetScaleLogger()
