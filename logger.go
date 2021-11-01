@@ -1,7 +1,9 @@
 package log
 
 import (
-	_ "github.com/golang/glog"
+	"os"
+
+	// _ "github.com/golang/glog"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -24,8 +26,13 @@ func NewPlanetScaleSugarLogger(opts ...zap.Option) (*zap.SugaredLogger, error) {
 	return logger.Sugar(), nil
 }
 
-// NewPlanetScaleConfig creates an opinionated zap.Config
+// NewPlanetScaleConfig createss an opinionated zap.Config
 func NewPlanetScaleConfig() zap.Config {
+	encoding := "json"
+	if os.Getenv("PS_DEV_MODE") != "" {
+		encoding = "console"
+	}
+
 	return zap.Config{
 		Level:       zap.NewAtomicLevelAt(zap.InfoLevel),
 		Development: false,
@@ -33,7 +40,7 @@ func NewPlanetScaleConfig() zap.Config {
 			Initial:    100,
 			Thereafter: 100,
 		},
-		Encoding: "json",
+		Encoding: encoding,
 		EncoderConfig: zapcore.EncoderConfig{
 			TimeKey:        "time",
 			LevelKey:       "level",
