@@ -2,7 +2,7 @@
 
 PlanetScale's logger module. Implemented as a set of convenience functions providing a common configuration of the [zap](https://github.com/uber-go/zap) logging library.  `zap` *"provides fast, structured, leveled logging."*
 
-Logs emitted follow the standards from [PlanetScale Structure Logging (coda)](https://coda.io/d/Text-Book_dqagsnmBFI6/WIP-Structured-Logging_suS7P#_luvPS).
+Logs emitted follow the standards from [PlanetScale Structure Logging (coda)](https://coda.io/d/Text-Book_dqagsnmBFI6/Structured-Logging_suS7P#_luvPS).
 
 ## Usage
 
