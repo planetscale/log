@@ -24,13 +24,13 @@ go get github.com/planetscale/log
 import "github.com/planetscale/log"
 
 func main() {
-  logger := log.NewPlanetScaleLogger()
+  logger := log.New()
   defer logger.Sync()
 
   logger.Info("info log with fields",
     // Structured context as typed key-value pairs
-    zap.String("user_id", "12345678"),
-    zap.String("branch_id", "xzyhnkhpi12"),
+    log.String("user_id", "12345678"),
+    log.String("branch_id", "xzyhnkhpi12"),
   )
 }
 ```
@@ -98,7 +98,7 @@ replace github.com/google/glog => github.com/planetscale/noglog master
 If using the `zap.Logger` call `.Sugar()` to get a SugaredLogger first:
 
 ```golang
-  logger, _ := log.NewPlanetScaleLogger()
+  logger, _ := log.New()
   defer logger.Sync()
 
   slogger := logger.Sugar()
