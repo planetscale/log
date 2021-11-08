@@ -12,7 +12,7 @@ import (
 //   replace github.com/google/glog => github.com/slok/noglog master
 
 func main() {
-	logger := log.NewPlanetScaleLogger()
+	logger := log.New()
 	defer logger.Sync()
 
 	// configure glog to log info to stdout, for demo purposes
