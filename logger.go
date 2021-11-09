@@ -34,8 +34,14 @@ func NewPlanetScaleConfig() zap.Config {
 		encoding = "console"
 	}
 
+	// The default, empty string, unmarshals into "info"
+	var level zapcore.Level
+	if err := (&level).UnmarshalText([]byte(os.Getenv("PS_LOG_LEVEL"))); err != nil {
+		panic("Invalid PS_LOG_LEVEL value: " + os.Getenv("PS_LOG_LEVEL"))
+	}
+
 	return zap.Config{
-		Level:       zap.NewAtomicLevelAt(zap.InfoLevel),
+		Level:       zap.NewAtomicLevelAt(level),
 		Development: false,
 		Sampling: &zap.SamplingConfig{
 			Initial:    100,
