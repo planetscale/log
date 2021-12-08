@@ -18,13 +18,20 @@ func NewPlanetScaleLogger() *zap.Logger {
 }
 
 // New creates a new default PlanetScale Logger.
-var New = NewPlanetScaleLogger
+func New() *zap.Logger {
+	return NewPlanetScaleLogger()
+}
 
 // NewPlanetScaleSugarLogger creates an opinionated zap.SugaredLogger. Additional customization
 // is available by passing in one or more zap.Options.
 // NOTE: A SugaredLogger can be converted into a zap.Logger with the .DeSugar() method.
 func NewPlanetScaleSugarLogger() *zap.SugaredLogger {
 	return NewPlanetScaleLogger().Sugar()
+}
+
+// NewNop returns a no-op logger
+func NewNop() *zap.Logger {
+	return zap.NewNop()
 }
 
 // NewPlanetScaleConfig creates an opinionated zap.Config
