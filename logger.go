@@ -75,6 +75,7 @@ func NewPlanetScaleConfig() zap.Config {
 }
 
 type Logger = zap.Logger
+type Field = zap.Field
 
 // Re-export of all zap field functions for convenience
 var (
