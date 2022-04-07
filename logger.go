@@ -9,44 +9,80 @@ import (
 
 // NewPlanetScaleLogger creates an opinionated zap.Logger. Additional customization
 // is available by passing in one or more zap.Options.
-func NewPlanetScaleLogger() *zap.Logger {
-	logger, err := NewPlanetScaleConfig().Build()
+func NewPlanetScaleLogger() *Logger {
+	return NewPlanetScaleLoggerAtLevel(detectLevel())
+}
+
+// NewPlanetScaleLoggerAtLevel creates an opinionated Logger at a desired Level.
+func NewPlanetScaleLoggerAtLevel(l Level) *Logger {
+	logger, err := NewPlanetScaleConfig(detectEncoding(), l).Build()
 	if err != nil {
 		panic("Unexpected error initializing PlanetScale logger: " + err.Error())
 	}
 	return logger
 }
 
-// New creates a new default PlanetScale Logger.
-func New() *zap.Logger {
+// New creates a new default PlanetScale Logger with auto detection of level.
+func New() *Logger {
 	return NewPlanetScaleLogger()
+}
+
+// NewAtLevel creat4es a new PlanetScale Logger at the desired Level.
+func NewAtLevel(l Level) *Logger {
+	return NewPlanetScaleLoggerAtLevel(l)
 }
 
 // NewPlanetScaleSugarLogger creates an opinionated zap.SugaredLogger. Additional customization
 // is available by passing in one or more zap.Options.
 // NOTE: A SugaredLogger can be converted into a zap.Logger with the .DeSugar() method.
-func NewPlanetScaleSugarLogger() *zap.SugaredLogger {
+func NewPlanetScaleSugarLogger() *SugaredLogger {
 	return NewPlanetScaleLogger().Sugar()
 }
 
 // NewNop returns a no-op logger
-func NewNop() *zap.Logger {
+func NewNop() *Logger {
 	return zap.NewNop()
 }
 
-// NewPlanetScaleConfig creates an opinionated zap.Config
-func NewPlanetScaleConfig() zap.Config {
-	encoding := "json"
+func detectEncoding() string {
 	if os.Getenv("PS_DEV_MODE") != "" {
-		encoding = "console"
+		return "pretty"
 	}
+	return "json"
+}
 
+// ParseLevel parses a level based on the lower-case or all-caps ASCII
+// representation of the log level. If the provided ASCII representation is
+// invalid an error is returned.
+//
+// This is particularly useful when dealing with text input to configure log
+// levels.
+//
+// This is vendored out of `zapcore` since it's added in newer versions, so
+// it's trivial enough to vendor and not require a newer `zap` module.
+func ParseLevel(text string) (Level, error) {
+	var level Level
+	err := level.UnmarshalText([]byte(text))
+	return level, err
+}
+
+func detectLevel() Level {
 	// The default, empty string, unmarshals into "info"
-	var level zapcore.Level
-	if err := (&level).UnmarshalText([]byte(os.Getenv("PS_LOG_LEVEL"))); err != nil {
+	level, err := ParseLevel(os.Getenv("PS_LOG_LEVEL"))
+	if err != nil {
 		panic("Invalid PS_LOG_LEVEL value: " + os.Getenv("PS_LOG_LEVEL"))
 	}
+	return level
+}
 
+// NewPlanetScaleConfigDefault creates an opinionated zap.Config while
+// detecting encoding and Level.
+func NewPlanetScaleConfigDefault() Config {
+	return NewPlanetScaleConfig(detectEncoding(), detectLevel())
+}
+
+// NewPlanetScaleConfig creates a zap.Config with the desired encoding and Level.
+func NewPlanetScaleConfig(encoding string, level Level) Config {
 	return zap.Config{
 		Level:       zap.NewAtomicLevelAt(level),
 		Development: false,
@@ -74,8 +110,27 @@ func NewPlanetScaleConfig() zap.Config {
 	}
 }
 
-type Logger = zap.Logger
-type Field = zap.Field
+type (
+	Config        = zap.Config
+	Logger        = zap.Logger
+	SugaredLogger = zap.SugaredLogger
+	Field         = zap.Field
+	Level         = zapcore.Level
+)
+
+const (
+	DebugLevel  = zapcore.DebugLevel
+	InfoLevel   = zapcore.InfoLevel
+	WarnLevel   = zapcore.WarnLevel
+	ErrorLevel  = zapcore.ErrorLevel
+	DPanicLevel = zapcore.DPanicLevel
+	PanicLevel  = zapcore.PanicLevel
+	FatalLevel  = zapcore.FatalLevel
+)
+
+var (
+	WithCaller = zap.WithCaller
+)
 
 // Re-export of all zap field functions for convenience
 var (
