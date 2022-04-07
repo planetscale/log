@@ -9,4 +9,4 @@ bin:
 
 bin/golangci-lint: | bin
 	@echo "Installing golangci-lint..."
-	curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s v1.42.1
+	curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.45.2

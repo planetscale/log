@@ -1,6 +1,6 @@
 module github.com/planetscale/log
 
-go 1.17
+go 1.18
 
 require (
 	go.uber.org/atomic v1.7.0 // indirect

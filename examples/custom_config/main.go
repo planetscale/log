@@ -2,13 +2,12 @@ package main
 
 import (
 	"github.com/planetscale/log"
-	"go.uber.org/zap"
 )
 
 func main() {
 	// disable the `caller` field in logs:
-	cfg := log.NewPlanetScaleConfig()
-	logger, _ := cfg.Build(zap.WithCaller(false))
+	cfg := log.NewPlanetScaleConfigDefault()
+	logger, _ := cfg.Build(log.WithCaller(false))
 	defer logger.Sync()
 
 	logger.Info("basic log example")
@@ -33,7 +32,7 @@ func main() {
 	functionWithExtraContext(logger)
 }
 
-func functionWithExtraContext(logger *zap.Logger) {
+func functionWithExtraContext(logger *log.Logger) {
 	// setup a temporarily logger with additional fields. All logs emitted from
 	// this func will include the fields.
 	l := logger.With(

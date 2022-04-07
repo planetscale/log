@@ -7,4 +7,4 @@ steps:
       - make lint
     plugins:
       - docker#v3.8.0:
-          image: "golang:1.17"
+          image: "golang:1.18"
