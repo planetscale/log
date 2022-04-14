@@ -40,6 +40,8 @@ func main() {
 
 	time.Sleep(500 * time.Millisecond)
 
+	logger.With(log.String("foo", "bar")).With(log.String("a", "b")).Info("hello", log.Int("int", 1))
+	logger.With(log.Error(errors.New("bye"))).Error("wups 1")
 	logger.Error("wups", log.Error(errors.New("bye")))
 	logger.Fatal("test")
 	logger.Panic("panic")
