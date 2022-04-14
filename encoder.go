@@ -114,6 +114,9 @@ func (enc *prettyEncoder) EncodeEntry(ent zapcore.Entry, fields []zapcore.Field)
 		zapcore.ShortCallerEncoder(ent.Caller, final)
 	}
 
+	// Write prior fields accumulated from `With()` calls first before writing our new fields.
+	final.buf.Write(enc.buf.Bytes())
+
 	addFields(final, fields)
 
 	if ent.Stack != "" && ent.Level != PanicLevel {
