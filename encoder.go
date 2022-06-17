@@ -233,29 +233,45 @@ func (enc *prettyEncoder) AddFloat64(key string, value float64) { enc.AddReflect
 func (enc *prettyEncoder) AppendFloat64(value float64)          { enc.AppendReflected(value) }
 func (enc *prettyEncoder) AddFloat32(key string, value float32) { enc.AddReflected(key, value) }
 func (enc *prettyEncoder) AppendFloat32(value float32)          { enc.AppendReflected(value) }
-func (enc *prettyEncoder) AddInt(key string, value int)         { enc.AddReflected(key, value) }
-func (enc *prettyEncoder) AppendInt(value int)                  { enc.AppendReflected(value) }
-func (enc *prettyEncoder) AddInt64(key string, value int64)     { enc.AddReflected(key, value) }
-func (enc *prettyEncoder) AppendInt64(value int64)              { enc.AppendReflected(value) }
-func (enc *prettyEncoder) AddInt32(key string, value int32)     { enc.AddReflected(key, value) }
-func (enc *prettyEncoder) AppendInt32(value int32)              { enc.AppendReflected(value) }
-func (enc *prettyEncoder) AddInt16(key string, value int16)     { enc.AddReflected(key, value) }
-func (enc *prettyEncoder) AppendInt16(value int16)              { enc.AppendReflected(value) }
-func (enc *prettyEncoder) AddInt8(key string, value int8)       { enc.AddReflected(key, value) }
-func (enc *prettyEncoder) AppendInt8(value int8)                { enc.AppendReflected(value) }
+func (enc *prettyEncoder) AddInt(key string, value int)         { enc.AddInt64(key, int64(value)) }
+func (enc *prettyEncoder) AppendInt(value int)                  { enc.AppendInt64(int64(value)) }
 
-func (enc *prettyEncoder) AddUint(key string, value uint)       { enc.AddReflected(key, value) }
-func (enc *prettyEncoder) AppendUint(value uint)                { enc.AppendReflected(value) }
-func (enc *prettyEncoder) AddUint64(key string, value uint64)   { enc.AddReflected(key, value) }
-func (enc *prettyEncoder) AppendUint64(value uint64)            { enc.AppendReflected(value) }
-func (enc *prettyEncoder) AddUint32(key string, value uint32)   { enc.AddReflected(key, value) }
-func (enc *prettyEncoder) AppendUint32(value uint32)            { enc.AppendReflected(value) }
-func (enc *prettyEncoder) AddUint16(key string, value uint16)   { enc.AddReflected(key, value) }
-func (enc *prettyEncoder) AppendUint16(value uint16)            { enc.AppendReflected(value) }
-func (enc *prettyEncoder) AddUint8(key string, value uint8)     { enc.AddReflected(key, value) }
-func (enc *prettyEncoder) AppendUint8(value uint8)              { enc.AppendReflected(value) }
-func (enc *prettyEncoder) AddUintptr(key string, value uintptr) { enc.AddReflected(key, value) }
-func (enc *prettyEncoder) AppendUintptr(value uintptr)          { enc.AppendReflected(value) }
+func (enc *prettyEncoder) AddInt64(key string, value int64) {
+	enc.addKey(key)
+	enc.AppendInt64(value)
+}
+func (enc *prettyEncoder) AppendInt64(value int64) {
+	enc.addElementSeparator()
+	fmt.Fprintf(enc.buf, "%d", value)
+}
+
+func (enc *prettyEncoder) AddInt32(key string, value int32) { enc.AddInt64(key, int64(value)) }
+func (enc *prettyEncoder) AppendInt32(value int32)          { enc.AppendInt64(int64(value)) }
+func (enc *prettyEncoder) AddInt16(key string, value int16) { enc.AddInt64(key, int64(value)) }
+func (enc *prettyEncoder) AppendInt16(value int16)          { enc.AppendInt64(int64(value)) }
+func (enc *prettyEncoder) AddInt8(key string, value int8)   { enc.AddInt64(key, int64(value)) }
+func (enc *prettyEncoder) AppendInt8(value int8)            { enc.AppendInt64(int64(value)) }
+
+func (enc *prettyEncoder) AddUint(key string, value uint) { enc.AddUint64(key, uint64(value)) }
+func (enc *prettyEncoder) AppendUint(value uint)          { enc.AppendUint64(uint64(value)) }
+
+func (enc *prettyEncoder) AddUint64(key string, value uint64) {
+	enc.addKey(key)
+	enc.AppendUint64(value)
+}
+func (enc *prettyEncoder) AppendUint64(value uint64) {
+	enc.addElementSeparator()
+	fmt.Fprintf(enc.buf, "%d", value)
+}
+
+func (enc *prettyEncoder) AddUint32(key string, value uint32)   { enc.AddUint64(key, uint64(value)) }
+func (enc *prettyEncoder) AppendUint32(value uint32)            { enc.AppendUint64(uint64(value)) }
+func (enc *prettyEncoder) AddUint16(key string, value uint16)   { enc.AddUint64(key, uint64(value)) }
+func (enc *prettyEncoder) AppendUint16(value uint16)            { enc.AppendUint64(uint64(value)) }
+func (enc *prettyEncoder) AddUint8(key string, value uint8)     { enc.AddUint64(key, uint64(value)) }
+func (enc *prettyEncoder) AppendUint8(value uint8)              { enc.AppendUint64(uint64(value)) }
+func (enc *prettyEncoder) AddUintptr(key string, value uintptr) { enc.AddUint64(key, uint64(value)) }
+func (enc *prettyEncoder) AppendUintptr(value uintptr)          { enc.AppendUint64(uint64(value)) }
 
 func (enc *prettyEncoder) AddString(key, value string) {
 	enc.addKey(key)

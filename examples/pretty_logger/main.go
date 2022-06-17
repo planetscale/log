@@ -36,6 +36,8 @@ func main() {
 		log.Strings("strings", []string{"a", "b"}),
 		log.Bools("bools", []bool{true, false}),
 		log.Stack("stack"),
+		log.Uint16("uint16", 100),
+		log.Float32("float32", 1.1),
 	)
 
 	time.Sleep(500 * time.Millisecond)
