@@ -10,12 +10,12 @@ import (
 // NewPlanetScaleLogger creates an opinionated zap.Logger. Additional customization
 // is available by passing in one or more zap.Options.
 func NewPlanetScaleLogger() *Logger {
-	return NewPlanetScaleLoggerAtLevel(detectLevel())
+	return NewPlanetScaleLoggerAtLevel(DetectLevel())
 }
 
 // NewPlanetScaleLoggerAtLevel creates an opinionated Logger at a desired Level.
 func NewPlanetScaleLoggerAtLevel(l Level) *Logger {
-	logger, err := NewPlanetScaleConfig(detectEncoding(), l).Build()
+	logger, err := NewPlanetScaleConfig(DetectEncoding(), l).Build()
 	if err != nil {
 		panic("Unexpected error initializing PlanetScale logger: " + err.Error())
 	}
@@ -44,7 +44,8 @@ func NewNop() *Logger {
 	return zap.NewNop()
 }
 
-func detectEncoding() string {
+// DetectEncoding detects the encoding to use based on PS_DEV_MODE env var.
+func DetectEncoding() string {
 	if os.Getenv("PS_DEV_MODE") != "" {
 		return "pretty"
 	}
@@ -66,7 +67,8 @@ func ParseLevel(text string) (Level, error) {
 	return level, err
 }
 
-func detectLevel() Level {
+// DetectLevel returns a the Level based on PS_LOG_LEVEL env var.
+func DetectLevel() Level {
 	// The default, empty string, unmarshals into "info"
 	level, err := ParseLevel(os.Getenv("PS_LOG_LEVEL"))
 	if err != nil {
@@ -78,7 +80,7 @@ func detectLevel() Level {
 // NewPlanetScaleConfigDefault creates an opinionated zap.Config while
 // detecting encoding and Level.
 func NewPlanetScaleConfigDefault() Config {
-	return NewPlanetScaleConfig(detectEncoding(), detectLevel())
+	return NewPlanetScaleConfig(DetectEncoding(), DetectLevel())
 }
 
 // NewPlanetScaleConfig creates a zap.Config with the desired encoding and Level.
