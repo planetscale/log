@@ -84,7 +84,7 @@ replace github.com/google/glog => github.com/planetscale/noglog master
 2. Replace `glog's` log calls with our SugaredLogger:
 
 ```golang
-  logger, _ := log.NewPlanetScaleSugarLogger()
+  logger := log.NewPlanetScaleSugarLogger()
   defer logger.Sync()
 
   glog.SetLogger(&glog.LoggerFunc{
@@ -98,7 +98,7 @@ replace github.com/google/glog => github.com/planetscale/noglog master
 If using the `zap.Logger` call `.Sugar()` to get a SugaredLogger first:
 
 ```golang
-  logger, _ := log.New()
+  logger := log.New()
   defer logger.Sync()
 
   slogger := logger.Sugar()
@@ -109,6 +109,54 @@ If using the `zap.Logger` call `.Sugar()` to get a SugaredLogger first:
     ErrorfFunc: func(f string, a ...interface{}) { slogger.Errorf(f, a...) },
   })
 
+```
+
+## Adapters
+
+Adapters are available for the following libraries:
+
+### github.com/slack-go/go
+
+Use `NewSlackGoAdapter()` to wrap a `*zap.SugaredLogger` that can be used with the github.com/slack-go/slack package:
+
+```go
+logger := log.NewPlanetScaleSugarLogger()
+defer logger.Sync()
+
+wrappedLogger := log.NewSlackGoAdapter(logger)
+
+client := slack.New(
+  token,
+  slack.OptionAppLevelToken(appToken),
+  slack.OptionLog(wrappedLogger),
+)
+
+socketClient := socketmode.New(
+  client,
+  socketmode.OptionLog(wrappedLogger),
+)
+```
+
+### github.com/temporalio/sdk-go
+
+Use `NewTemporalAdapter()` to wrap a `*zap.SugaredLogger` that can be used with the github.com/temporalio/sdk-go package:
+
+```go
+logger := log.NewPlanetScaleSugarLogger()
+defer logger.Sync()
+
+temporalLogger := log.NewTemporalAdapter(logger)
+
+tClient, err := client.NewClient(client.Options{
+  HostPort: fmt.Sprintf("%s:%d", host, port),
+  Logger: temporalLogger,
+})
+
+// or client.Dial():
+tClient, err := client.Dial(client.Options{
+  HostPort: fmt.Sprintf("%s:%d", host, port),
+  Logger: temporalLogger,
+})
 ```
 
 ## Development mode
