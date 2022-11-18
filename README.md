@@ -117,10 +117,10 @@ Adapters are available for the following libraries:
 
 ### github.com/slack-go/go
 
-Use `NewSlackGoAdapter()` to wrap a `*zap.SugaredLogger` that can be used with the github.com/slack-go/slack package:
+Use `NewSlackGoAdapter()` to wrap a `*zap.Logger` that can be used with the github.com/slack-go/slack package:
 
 ```go
-logger := log.NewPlanetScaleSugarLogger()
+logger := log.NewPlanetScaleLogger()
 defer logger.Sync()
 
 wrappedLogger := log.NewSlackGoAdapter(logger)
@@ -139,10 +139,10 @@ socketClient := socketmode.New(
 
 ### github.com/temporalio/sdk-go
 
-Use `NewTemporalAdapter()` to wrap a `*zap.SugaredLogger` that can be used with the github.com/temporalio/sdk-go package:
+Use `NewTemporalAdapter()` to wrap a `*zap.Logger` that can be used with the github.com/temporalio/sdk-go package:
 
 ```go
-logger := log.NewPlanetScaleSugarLogger()
+logger := log.NewPlanetScaleLogger()
 defer logger.Sync()
 
 temporalLogger := log.NewTemporalAdapter(logger)

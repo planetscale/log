@@ -27,7 +27,7 @@ func New() *Logger {
 	return NewPlanetScaleLogger()
 }
 
-// NewAtLevel creat4es a new PlanetScale Logger at the desired Level.
+// NewAtLevel creates a new PlanetScale Logger at the desired Level.
 func NewAtLevel(l Level) *Logger {
 	return NewPlanetScaleLoggerAtLevel(l)
 }
@@ -130,9 +130,7 @@ const (
 	FatalLevel  = zapcore.FatalLevel
 )
 
-var (
-	WithCaller = zap.WithCaller
-)
+var WithCaller = zap.WithCaller
 
 // Re-export of all zap field functions for convenience
 var (
