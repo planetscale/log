@@ -47,9 +47,9 @@ func NewNop() *Logger {
 // DetectEncoding detects the encoding to use based on PS_DEV_MODE env var.
 func DetectEncoding() string {
 	if os.Getenv("PS_DEV_MODE") != "" {
-		return "pretty"
+		return PrettyEncoding
 	}
-	return "json"
+	return JSONEncoding
 }
 
 // ParseLevel parses a level based on the lower-case or all-caps ASCII
@@ -77,43 +77,12 @@ func DetectLevel() Level {
 	return level
 }
 
-// NewPlanetScaleConfigDefault creates an opinionated zap.Config while
-// detecting encoding and Level.
-func NewPlanetScaleConfigDefault() Config {
-	return NewPlanetScaleConfig(DetectEncoding(), DetectLevel())
-}
-
-// NewPlanetScaleConfig creates a zap.Config with the desired encoding and Level.
-func NewPlanetScaleConfig(encoding string, level Level) Config {
-	return zap.Config{
-		Level:       zap.NewAtomicLevelAt(level),
-		Development: false,
-		Sampling: &zap.SamplingConfig{
-			Initial:    100,
-			Thereafter: 100,
-		},
-		Encoding: encoding,
-		EncoderConfig: zapcore.EncoderConfig{
-			TimeKey:        "time",
-			LevelKey:       "level",
-			NameKey:        "logger",
-			CallerKey:      "caller",
-			FunctionKey:    zapcore.OmitKey,
-			MessageKey:     "msg",
-			StacktraceKey:  "stacktrace",
-			LineEnding:     zapcore.DefaultLineEnding,
-			EncodeLevel:    zapcore.LowercaseLevelEncoder,
-			EncodeTime:     zapcore.RFC3339TimeEncoder,
-			EncodeDuration: zapcore.MillisDurationEncoder,
-			EncodeCaller:   zapcore.ShortCallerEncoder,
-		},
-		OutputPaths:      []string{"stderr"},
-		ErrorOutputPaths: []string{"stderr"},
-	}
-}
+const (
+	PrettyEncoding = "pretty"
+	JSONEncoding   = "json"
+)
 
 type (
-	Config        = zap.Config
 	Logger        = zap.Logger
 	SugaredLogger = zap.SugaredLogger
 	Field         = zap.Field

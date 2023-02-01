@@ -136,7 +136,7 @@ func (enc *prettyEncoder) EncodeEntry(ent zapcore.Entry, fields []zapcore.Field)
 }
 
 func init() {
-	zap.RegisterEncoder("pretty", func(cfg zapcore.EncoderConfig) (zapcore.Encoder, error) {
+	zap.RegisterEncoder(PrettyEncoding, func(cfg zapcore.EncoderConfig) (zapcore.Encoder, error) {
 		return NewPrettyEncoder(cfg), nil
 	})
 }
@@ -196,12 +196,15 @@ func (enc *prettyEncoder) AppendBinary(value []byte) {
 	enc.addElementSeparator()
 	fmt.Fprintf(enc.buf, "0x%x", value)
 }
+
 func (enc *prettyEncoder) AddByteString(key string, value []byte) {
 	enc.AddString(key, string(value))
 }
+
 func (enc *prettyEncoder) AppendByteString(value []byte) {
 	enc.AppendString(string(value))
 }
+
 func (enc *prettyEncoder) AddBool(key string, value bool) {
 	enc.addKey(key)
 	enc.AppendBool(value)
@@ -240,6 +243,7 @@ func (enc *prettyEncoder) AddInt64(key string, value int64) {
 	enc.addKey(key)
 	enc.AppendInt64(value)
 }
+
 func (enc *prettyEncoder) AppendInt64(value int64) {
 	enc.addElementSeparator()
 	fmt.Fprintf(enc.buf, "%d", value)
@@ -259,6 +263,7 @@ func (enc *prettyEncoder) AddUint64(key string, value uint64) {
 	enc.addKey(key)
 	enc.AppendUint64(value)
 }
+
 func (enc *prettyEncoder) AppendUint64(value uint64) {
 	enc.addElementSeparator()
 	fmt.Fprintf(enc.buf, "%d", value)
@@ -334,6 +339,7 @@ const (
 )
 
 // Foreground text colors
+//
 //nolint:deadcode,varcheck
 const (
 	attributeFgBlack attribute = iota + 30
@@ -347,6 +353,7 @@ const (
 )
 
 // Foreground Hi-Intensity text colors
+//
 //nolint:deadcode,varcheck
 const (
 	attributeFgHiBlack attribute = iota + 90
@@ -360,6 +367,7 @@ const (
 )
 
 // Background text colors
+//
 //nolint:deadcode,varcheck
 const (
 	attributeBgBlack attribute = iota + 40
@@ -373,6 +381,7 @@ const (
 )
 
 // Background Hi-Intensity text colors
+//
 //nolint:deadcode,varcheck
 const (
 	attributeBgHiBlack attribute = iota + 100
