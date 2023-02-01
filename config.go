@@ -18,6 +18,8 @@ func NewPlanetScaleConfig(encoding string, level Level) Config {
 	return Config{
 		Level:    zap.NewAtomicLevelAt(level),
 		Encoding: encoding,
+		// only buffer the JSON encoder
+		Buffered: encoding == JSONEncoding,
 	}
 }
 
@@ -40,6 +42,7 @@ var defaultEncoderConfig = zapcore.EncoderConfig{
 type Config struct {
 	Level    zap.AtomicLevel
 	Encoding string
+	Buffered bool
 }
 
 // Build creates a Logger out of our Config.
@@ -47,6 +50,7 @@ type Config struct {
 // error. This is maintained for compatibility with
 // zapcore.Config{}.Build().
 func (cfg Config) Build(opts ...zap.Option) (*Logger, error) {
+	var ws zapcore.WriteSyncer = os.Stderr
 	// XXX: the internal BufferedWriteSyncer in theory
 	// leaks a goroutine for the ticker to flush to stderr,
 	// but in practice, this shouldn't particularly be a concern
@@ -54,14 +58,16 @@ func (cfg Config) Build(opts ...zap.Option) (*Logger, error) {
 	// loggers at runtime. If this becomes an actual issue
 	// we might need to expose a way to get this
 	// BufferedWriteSyncer so the caller can call Stop() on it.
-	bw := &zapcore.BufferedWriteSyncer{WS: os.Stderr}
+	if cfg.Buffered {
+		ws = &zapcore.BufferedWriteSyncer{WS: ws}
+	}
 	log := zap.New(
 		zapcore.NewCore(
 			cfg.buildEncoder(),
-			bw,
+			ws,
 			cfg.Level,
 		),
-		zap.ErrorOutput(bw),
+		zap.ErrorOutput(ws),
 		zap.AddCaller(),
 		zap.AddStacktrace(ErrorLevel),
 	)
