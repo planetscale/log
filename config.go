@@ -15,11 +15,16 @@ func NewPlanetScaleConfigDefault() Config {
 
 // NewPlanetScaleConfig creates a zap.Config with the desired encoding and Level.
 func NewPlanetScaleConfig(encoding string, level Level) Config {
+	// only buffer the JSON encoder
+	buffered := encoding == JSONEncoding
+	// override buffering if it's set explicitly
+	if v, isSet := DetectBuffering(); isSet {
+		buffered = v
+	}
 	return Config{
 		Level:    zap.NewAtomicLevelAt(level),
 		Encoding: encoding,
-		// only buffer the JSON encoder
-		Buffered: encoding == JSONEncoding,
+		Buffered: buffered,
 	}
 }
 
