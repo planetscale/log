@@ -52,6 +52,14 @@ func DetectEncoding() string {
 	return JSONEncoding
 }
 
+// DetectBuffering detects both if an override is set with PS_LOG_BUFFERED,
+// and what the override says. The common case would be to entirely disable
+// buffering, and simply setting PS_LOG_BUFFERED=0 would explicitly disable it.
+func DetectBuffering() (bool, bool) {
+	v, isSet := os.LookupEnv("PS_LOG_BUFFERED")
+	return v == "1", isSet
+}
+
 // ParseLevel parses a level based on the lower-case or all-caps ASCII
 // representation of the log level. If the provided ASCII representation is
 // invalid an error is returned.
