@@ -48,6 +48,7 @@ type Config struct {
 	Level    zap.AtomicLevel
 	Encoding string
 	Buffered bool
+	NanoTime bool
 }
 
 // Build creates a Logger out of our Config.
@@ -83,9 +84,15 @@ func (cfg Config) Build(opts ...zap.Option) (*Logger, error) {
 }
 
 func (cfg Config) buildEncoder() zapcore.Encoder {
+	encoderConfig := defaultEncoderConfig
 	// we only suppport pretty or json
 	if cfg.Encoding == PrettyEncoding {
-		return NewPrettyEncoder(defaultEncoderConfig)
+		return NewPrettyEncoder(encoderConfig)
 	}
-	return zapcore.NewJSONEncoder(defaultEncoderConfig)
+	// NanoTime only applies when not using the pretty encoder, since
+	// nanosecond timestamps are, in fact, not pretty.
+	if cfg.NanoTime {
+		encoderConfig.EncodeTime = zapcore.EpochNanosTimeEncoder
+	}
+	return zapcore.NewJSONEncoder(encoderConfig)
 }
