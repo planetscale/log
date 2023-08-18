@@ -185,3 +185,8 @@ var (
 	Uintptrs    = zap.Uintptrs
 	Uints       = zap.Uints
 )
+
+// Stringers constructs a field with the given key, holding a list of the output provided by the value's String method
+func Stringers[T interface{ String() string }](key string, value []T) Field {
+	return zap.Stringers(key, value)
+}
