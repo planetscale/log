@@ -1,4 +1,4 @@
-# log 🪵
+# log 🪵 
 
 PlanetScale's logger module. Implemented as a set of convenience functions providing a common configuration of the [zap](https://github.com/uber-go/zap) logging library.  `zap` *"provides fast, structured, leveled logging."*
 
