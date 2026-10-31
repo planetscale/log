@@ -339,8 +339,6 @@ const (
 )
 
 // Foreground text colors
-//
-//nolint:deadcode,varcheck
 const (
 	attributeFgBlack attribute = iota + 30
 	attributeFgRed
@@ -353,8 +351,6 @@ const (
 )
 
 // Foreground Hi-Intensity text colors
-//
-//nolint:deadcode,varcheck
 const (
 	attributeFgHiBlack attribute = iota + 90
 	attributeFgHiRed
@@ -367,8 +363,6 @@ const (
 )
 
 // Background text colors
-//
-//nolint:deadcode,varcheck
 const (
 	attributeBgBlack attribute = iota + 40
 	attributeBgRed
@@ -381,8 +375,6 @@ const (
 )
 
 // Background Hi-Intensity text colors
-//
-//nolint:deadcode,varcheck
 const (
 	attributeBgHiBlack attribute = iota + 100
 	attributeBgHiRed
